@@ -1,1 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Migration Legend</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+  body {
+    background: #0e0e10;
+    color: #f0ede6;
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+
+  .card {
+    background: #16161a;
+    border: 0.5px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 2.5rem 2.8rem;
+    max-width: 520px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(120,100,220,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .card-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    letter-spacing: 0.01em;
+    color: #f0ede6;
+    margin-bottom: 4px;
+  }
+
+  .card-sub {
+    font-size: 12px;
+    font-weight: 300;
+    color: rgba(240,237,230,0.4);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+  }
+
+  .divider {
+    border: none;
+    border-top: 0.5px solid rgba(255,255,255,0.07);
+    margin: 1.4rem 0;
+  }
+
+  .section-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(240,237,230,0.3);
+    margin-bottom: 0.9rem;
+  }
+
+  .legend-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 12px;
+    font-size: 13.5px;
+    font-weight: 300;
+    color: rgba(240,237,230,0.85);
+  }
+
+  .legend-row:last-child { margin-bottom: 0; }
+
+  .vis { width: 40px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+
+  /* colour swatches */
+  .swatch {
+    width: 36px; height: 12px;
+    border-radius: 3px;
+  }
+
+  /* generation gradient swatches */
+  .gen-swatches { display: flex; gap: 3px; }
+  .gen-swatch { width: 12px; height: 12px; border-radius: 2px; }
+
+  /* arrow */
+  .arrow-svg { width: 40px; height: 18px; }
+
+  /* symbols */
+  .sym-svg { width: 18px; height: 18px; }
+
+  /* inline note */
+  .note {
+    font-size: 11px;
+    color: rgba(240,237,230,0.3);
+    font-weight: 300;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+
+  /* fade animation on load */
+  .legend-row {
+    opacity: 0;
+    transform: translateY(6px);
+    animation: fadeUp 0.4s ease forwards;
+  }
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .legend-row:nth-child(1)  { animation-delay: 0.05s; }
+  .legend-row:nth-child(2)  { animation-delay: 0.10s; }
+  .legend-row:nth-child(3)  { animation-delay: 0.15s; }
+  .legend-row:nth-child(4)  { animation-delay: 0.20s; }
+  .legend-row:nth-child(5)  { animation-delay: 0.25s; }
+  .legend-row:nth-child(6)  { animation-delay: 0.30s; }
+  .legend-row:nth-child(7)  { animation-delay: 0.35s; }
+  .legend-row:nth-child(8)  { animation-delay: 0.40s; }
+  .legend-row:nth-child(9)  { animation-delay: 0.45s; }
+  .legend-row:nth-child(10) { animation-delay: 0.50s; }
+</style>
+</head>
+<body>
+<div class="card">
+
+  <p class="card-title">Map Legend</p>
+  <p class="card-sub">Personal Migration Project</p>
+
+  <!-- Lines of ancestry -->
+  <p class="section-label">Lines of ancestry</p>
+
+  <div class="legend-row">
+    <div class="vis"><div class="swatch" style="background:#c94040;"></div></div>
+    Mother's side
+  </div>
+  <div class="legend-row">
+    <div class="vis"><div class="swatch" style="background:#3478c5;"></div></div>
+    Father's side
+  </div>
+  <div class="legend-row">
+    <div class="vis"><div class="swatch" style="background:#7b68cc;"></div></div>
+    Combined / shared migration
+  </div>
+
+  <hr class="divider">
+
+  <!-- Generation shading -->
+  <p class="section-label">Generation shading</p>
+
+  <div class="legend-row">
+    <div class="vis">
+      <div class="gen-swatches">
+        <div class="gen-swatch" style="background:#c94040;"></div>
+        <div class="gen-swatch" style="background:#a06060;"></div>
+        <div class="gen-swatch" style="background:#6e4444; opacity:0.55;"></div>
+      </div>
+    </div>
+    Mother's line — present → past
+    <span class="note">fades older</span>
+  </div>
+  <div class="legend-row">
+    <div class="vis">
+      <div class="gen-swatches">
+        <div class="gen-swatch" style="background:#3478c5;"></div>
+        <div class="gen-swatch" style="background:#4f7aaa;"></div>
+        <div class="gen-swatch" style="background:#3a5a7a; opacity:0.55;"></div>
+      </div>
+    </div>
+    Father's line — present → past
+    <span class="note">fades older</span>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Movement -->
+  <p class="section-label">Movement</p>
+
+  <div class="legend-row">
+    <div class="vis">
+      <svg class="arrow-svg" viewBox="0 0 40 18">
+        <line x1="2" y1="9" x2="30" y2="9" stroke="rgba(240,237,230,0.7)" stroke-width="1.5" stroke-dasharray="0"/>
+        <polygon points="30,5 38,9 30,13" fill="rgba(240,237,230,0.7)"/>
+      </svg>
+    </div>
+    Migration route
+    <span class="note">direction of movement</span>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Location symbols -->
+  <p class="section-label">Location symbols</p>
+
+  <div class="legend-row">
+    <div class="vis">
+      <svg class="sym-svg" viewBox="0 0 18 18">
+        <polygon points="9,2 17,16 1,16" fill="none" stroke="rgba(240,237,230,0.75)" stroke-width="1.4"/>
+      </svg>
+    </div>
+    Origin / starting point
+  </div>
+  <div class="legend-row">
+    <div class="vis">
+      <svg class="sym-svg" viewBox="0 0 18 18">
+        <circle cx="9" cy="9" r="6.5" fill="none" stroke="rgba(240,237,230,0.75)" stroke-width="1.4"/>
+      </svg>
+    </div>
+    Destination / place of settlement
+  </div>
+  <div class="legend-row">
+    <div class="vis">
+      <svg class="sym-svg" viewBox="0 0 18 18">
+        <rect x="2" y="2" width="14" height="14" rx="2" fill="none" stroke="rgba(240,237,230,0.75)" stroke-width="1.4"/>
+        <circle cx="9" cy="9" r="2" fill="rgba(240,237,230,0.75)"/>
+      </svg>
+    </div>
+    Current place of residence
+  </div>
+
+</div>
+</body>
+</html>
