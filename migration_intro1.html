@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Migration Intro</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #0e0e10;
+    color: #f0ede6;
+    font-family: 'DM Sans', sans-serif;
+    padding: 2rem;
+  }
+
+  .card {
+    background: #16161a;
+    border: 0.5px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 2.5rem 2.8rem;
+    max-width: 520px;
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(120,100,220,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .card-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    letter-spacing: 0.01em;
+    color: #f0ede6;
+    margin-bottom: 4px;
+  }
+
+  .card-title em {
+    font-style: italic;
+    color: rgba(240,237,230,0.5);
+  }
+
+  .card-sub {
+    font-size: 12px;
+    font-weight: 300;
+    color: rgba(240,237,230,0.4);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+  }
+
+  .divider {
+    border: none;
+    border-top: 0.5px solid rgba(255,255,255,0.07);
+    margin: 1.4rem 0;
+  }
+
+  .section-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(240,237,230,0.3);
+    margin-bottom: 0.9rem;
+  }
+
+  .story {
+    font-size: 13.5px;
+    font-weight: 300;
+    line-height: 1.85;
+    color: rgba(240,237,230,0.65);
+    margin-bottom: 0;
+  }
+
+  .story strong {
+    font-weight: 500;
+    color: rgba(240,237,230,0.9);
+  }
+
+  .ancestry {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .ancestry-card {
+    background: rgba(255,255,255,0.03);
+    border: 0.5px solid rgba(255,255,255,0.07);
+    border-radius: 10px;
+    padding: 1rem 1.1rem;
+  }
+
+  .ac-label {
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .ac-mom { color: rgba(201,64,64,0.8); }
+  .ac-dad { color: rgba(52,120,197,0.8); }
+
+  .ac-route {
+    font-size: 12px;
+    font-weight: 300;
+    color: rgba(240,237,230,0.55);
+    line-height: 1.7;
+  }
+
+  .ac-route span {
+    color: rgba(240,237,230,0.85);
+    font-weight: 400;
+  }
+
+  .bottom {
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .name {
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    color: rgba(240,237,230,0.3);
+  }
+
+  .year {
+    font-size: 11px;
+    font-weight: 300;
+    letter-spacing: 0.12em;
+    color: rgba(240,237,230,0.2);
+  }
+
+  .mini-legend {
+    display: flex;
+    gap: 16px;
+    margin-top: 1.2rem;
+  }
+
+  .ml-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 300;
+    color: rgba(240,237,230,0.35);
+  }
+
+  .ml-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <p class="card-title">Personal Migration <em>Map</em></p>
+  <p class="card-sub">2CO · SIS Zürich · 2026</p>
+
+  <p class="section-label">The story</p>
+  <p class="story">
+    A family shaped by movement — from the sun-baked plains of <strong>Aragón, Murcia</strong> and <strong>Andalucía</strong> to the heartland of <strong>Catalonia</strong>, and eventually northward to <strong>Switzerland</strong>. Two separate journeys, two family lines, converging in <strong>Thalwil</strong>.
+  </p>
+
+  <hr class="divider">
+
+  <p class="section-label">Ancestry routes</p>
+  <div class="ancestry">
+    <div class="ancestry-card">
+      <p class="ac-label ac-mom">Mother's side</p>
+      <p class="ac-route">
+        <span>Aragón</span> → Barcelona<br>
+        <span>Murcia</span> → Barcelona<br>
+        Barcelona → <span>Winterthur</span><br>
+        Winterthur → <span>Thalwil</span>
+      </p>
+    </div>
+    <div class="ancestry-card">
+      <p class="ac-label ac-dad">Father's side</p>
+      <p class="ac-route">
+        <span>Andalucía</span> → Lérida<br>
+        <span>Málaga</span> → Lérida<br>
+        Lérida → Barcelona<br>
+        Barcelona → <span>Winterthur</span> → <span>Thalwil</span>
+      </p>
+    </div>
+  </div>
+
+  <div class="mini-legend">
+    <div class="ml-item">
+      <div class="ml-dot" style="background:#c94040;"></div>
+      Mother's line
+    </div>
+    <div class="ml-item">
+      <div class="ml-dot" style="background:#3478c5;"></div>
+      Father's line
+    </div>
+    <div class="ml-item">
+      <div class="ml-dot" style="background:#7b68cc;"></div>
+      Combined
+    </div>
+  </div>
+
+  <div class="bottom">
+    <p class="name">Santiago · 2CO</p>
+    <p class="year">June 2026</p>
+  </div>
+</div>
+
+</body>
+</html>
