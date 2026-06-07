@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Historical Reasons</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Outfit:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --red: #c94040;
+    --blue: #3478c5;
+    --purple: #7b68cc;
+    --bg: #0a0a0c;
+    --card: #111115;
+    --border: rgba(255,255,255,0.07);
+    --text: #f0ede6;
+    --muted: rgba(240,237,230,0.4);
+    --faint: rgba(240,237,230,0.12);
+  }
+
+  html, body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Outfit', sans-serif;
+    min-height: 100vh;
+    padding: 2rem 1.5rem 3rem;
+  }
+
+  /* grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  .wrap { position: relative; z-index: 1; max-width: 700px; margin: 0 auto; }
+
+  /* header */
+  .header { margin-bottom: 2.5rem; }
+
+  .eyebrow {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--purple);
+    margin-bottom: 0.6rem;
+  }
+
+  .page-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 5vw, 42px);
+    font-weight: 400;
+    line-height: 1.1;
+    color: var(--text);
+    margin-bottom: 0.8rem;
+  }
+
+  .page-title em {
+    font-style: italic;
+    color: var(--muted);
+  }
+
+  .page-intro {
+    font-size: 13.5px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--muted);
+    max-width: 540px;
+  }
+
+  /* timeline */
+  .timeline { position: relative; padding-left: 28px; }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 8px;
+    bottom: 8px;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--red), var(--blue), var(--purple));
+    opacity: 0.3;
+  }
+
+  /* chapter */
+  .chapter {
+    position: relative;
+    margin-bottom: 8px;
+    border-radius: 14px;
+    border: 0.5px solid var(--border);
+    background: var(--card);
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+  }
+
+  .chapter:hover { border-color: rgba(255,255,255,0.15); }
+  .chapter.open { border-color: rgba(255,255,255,0.12); }
+
+  /* dot on timeline */
+  .chapter::before {
+    content: '';
+    position: absolute;
+    left: -25px;
+    top: 22px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 1.5px solid currentColor;
+    background: var(--bg);
+    z-index: 2;
+  }
+
+  .chapter.mom::before { color: var(--red); }
+  .chapter.dad::before { color: var(--blue); }
+  .chapter.both::before { color: var(--purple); }
+
+  /* chapter header */
+  .ch-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 1.1rem 1.3rem;
+    user-select: none;
+  }
+
+  .ch-icon {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-size: 16px;
+  }
+
+  .mom .ch-icon { background: rgba(201,64,64,0.12); }
+  .dad .ch-icon { background: rgba(52,120,197,0.12); }
+  .both .ch-icon { background: rgba(123,104,204,0.12); }
+
+  .ch-meta { flex: 1; }
+
+  .ch-label {
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+
+  .mom .ch-label { color: var(--red); }
+  .dad .ch-label { color: var(--blue); }
+  .both .ch-label { color: var(--purple); }
+
+  .ch-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--text);
+  }
+
+  .ch-arrow {
+    font-size: 11px;
+    color: var(--muted);
+    transition: transform 0.35s ease;
+    flex-shrink: 0;
+  }
+
+  .chapter.open .ch-arrow { transform: rotate(180deg); }
+
+  /* chapter body */
+  .ch-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .chapter.open .ch-body { max-height: 600px; }
+
+  .ch-inner { padding: 0 1.3rem 1.4rem; }
+
+  .ch-divider {
+    border: none;
+    border-top: 0.5px solid var(--border);
+    margin-bottom: 1.2rem;
+  }
+
+  /* route pill */
+  .route-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--faint);
+    border-radius: 99px;
+    padding: 4px 12px 4px 8px;
+    font-size: 11px;
+    font-weight: 400;
+    color: rgba(240,237,230,0.7);
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .route-pill span {
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .route-pill .arrow { color: var(--muted); font-size: 9px; }
+
+  /* description */
+  .ch-desc {
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 1.85;
+    color: rgba(240,237,230,0.6);
+    margin-bottom: 1.1rem;
+  }
+
+  .ch-desc strong {
+    font-weight: 500;
+    color: rgba(240,237,230,0.9);
+  }
+
+  /* stat row */
+  .stats {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .stat {
+    background: rgba(255,255,255,0.03);
+    border: 0.5px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    flex: 1;
+    min-width: 100px;
+  }
+
+  .stat-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--text);
+    line-height: 1;
+    margin-bottom: 3px;
+  }
+
+  .stat-label {
+    font-size: 10px;
+    font-weight: 300;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+
+  /* push pull tags */
+  .tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+  }
+
+  .tag {
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    padding: 3px 10px;
+    border-radius: 99px;
+    border: 0.5px solid;
+  }
+
+  .tag.push {
+    color: rgba(201,64,64,0.8);
+    border-color: rgba(201,64,64,0.25);
+    background: rgba(201,64,64,0.06);
+  }
+
+  .tag.pull {
+    color: rgba(52,197,120,0.8);
+    border-color: rgba(52,197,120,0.25);
+    background: rgba(52,197,120,0.06);
+  }
+
+  .tag-legend {
+    display: flex;
+    gap: 12px;
+    margin-top: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .tag-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10px;
+    color: var(--muted);
+  }
+
+  .tl-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+  }
+
+  /* fade in on load */
+  .header, .chapter {
+    opacity: 0;
+    transform: translateY(10px);
+    animation: rise 0.5s ease forwards;
+  }
+  .header { animation-delay: 0.1s; }
+  .chapter:nth-child(1) { animation-delay: 0.2s; }
+  .chapter:nth-child(2) { animation-delay: 0.3s; }
+  .chapter:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes rise {
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="header">
+    <p class="eyebrow">Migration Project · 2CO · SIS Zürich</p>
+    <h1 class="page-title">Why Did They <em>Move?</em></h1>
+    <p class="page-intro">Behind every migration is a reason. My family's journey across Spain and into Switzerland was shaped by forces much bigger than themselves — economic collapse, industrial opportunity, and a rare chance at a new life.</p>
+  </div>
+
+  <div class="tag-legend">
+    <div class="tag-legend-item"><div class="tl-dot" style="background:rgba(201,64,64,0.7)"></div> Push factor — reason to leave</div>
+    <div class="tag-legend-item"><div class="tl-dot" style="background:rgba(52,197,120,0.7)"></div> Pull factor — reason to go</div>
+  </div>
+
+  <div class="timeline">
+
+    <!-- Chapter 1 -->
+    <div class="chapter mom" onclick="toggle(this)">
+      <div class="ch-header">
+        <div class="ch-icon">🏔️</div>
+        <div class="ch-meta">
+          <p class="ch-label">Mother's side · Great-grandparents</p>
+          <p class="ch-title">Fleeing the Rural Crisis</p>
+        </div>
+        <span class="ch-arrow">▼</span>
+      </div>
+      <div class="ch-body">
+        <div class="ch-inner">
+          <hr class="ch-divider">
+          <div class="route-pill">
+            <span>Aragón</span><span class="arrow">→</span>
+            <span>Murcia</span><span class="arrow">→</span>
+            <span>Barcelona</span>
+          </div>
+          <p class="ch-desc">
+            My great-grandparents were part of Spain's great <strong>rural exodus</strong> — one of the largest internal migrations in European history. From the 1940s onwards, the traditional economies of Aragón and Murcia collapsed. Subsistence farming could no longer support families. Barcelona's booming industrial sector promised wages, housing, and a future. They weren't alone — <strong>millions of Spaniards</strong> made the same journey north to Catalonia.
+          </p>
+          <div class="stats">
+            <div class="stat">
+              <div class="stat-val">~10M</div>
+              <div class="stat-label">Spaniards relocated internally 1970–1995</div>
+            </div>
+            <div class="stat">
+              <div class="stat-val">1940s–70s</div>
+              <div class="stat-label">Peak of Spain's rural exodus</div>
+            </div>
+          </div>
+          <div class="tags">
+            <span class="tag push">Agricultural collapse</span>
+            <span class="tag push">Rural poverty</span>
+            <span class="tag pull">Industrial jobs in Barcelona</span>
+            <span class="tag pull">Higher wages</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chapter 2 -->
+    <div class="chapter dad" onclick="toggle(this)">
+      <div class="ch-header">
+        <div class="ch-icon">🌞</div>
+        <div class="ch-meta">
+          <p class="ch-label">Father's side · Great-grandparents & Grandparents</p>
+          <p class="ch-title">From the South to Catalonia</p>
+        </div>
+        <span class="ch-arrow">▼</span>
+      </div>
+      <div class="ch-body">
+        <div class="ch-inner">
+          <hr class="ch-divider">
+          <div class="route-pill">
+            <span>Andalucía</span><span class="arrow">→</span>
+            <span>Málaga</span><span class="arrow">→</span>
+            <span>Lérida</span><span class="arrow">→</span>
+            <span>Barcelona</span>
+          </div>
+          <p class="ch-desc">
+            My father's family followed a similar path — the pull of Catalonia was impossible to resist. Andalucía, despite its beauty, offered little economic mobility. Lérida became a <strong>stepping stone</strong> — a Catalan city that offered work in agriculture and industry while being closer to the opportunities of Barcelona. This gradual northward drift was common for southern Spanish families in the mid-20th century, moving in stages rather than all at once.
+          </p>
+          <div class="stats">
+            <div class="stat">
+              <div class="stat-val">1950s–70s</div>
+              <div class="stat-label">Peak Andalusian migration north</div>
+            </div>
+            <div class="stat">
+              <div class="stat-val">Catalonia</div>
+              <div class="stat-label">Absorbed most of Spain's internal migrants</div>
+            </div>
+          </div>
+          <div class="tags">
+            <span class="tag push">Economic stagnation in the south</span>
+            <span class="tag push">Limited opportunities</span>
+            <span class="tag pull">Industrial growth in Catalonia</span>
+            <span class="tag pull">Agricultural work in Lérida</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chapter 3 -->
+    <div class="chapter both" onclick="toggle(this)">
+      <div class="ch-header">
+        <div class="ch-icon">🎭</div>
+        <div class="ch-meta">
+          <p class="ch-label">Both sides · Parents · 2004</p>
+          <p class="ch-title">Two Journeys, One Destination</p>
+        </div>
+        <span class="ch-arrow">▼</span>
+      </div>
+      <div class="ch-body">
+        <div class="ch-inner">
+          <hr class="ch-divider">
+          <div class="route-pill">
+            <span>Barcelona</span><span class="arrow">→</span>
+            <span>Opernhaus Zürich</span><span class="arrow">→</span>
+            <span>Winterthur</span><span class="arrow">→</span>
+            <span>Thalwil</span>
+          </div>
+          <p class="ch-desc">
+            By 2004, migration looked nothing like it had for my great-grandparents. The EU–Switzerland Bilateral Agreements had <strong>opened borders</strong> in a way previous generations could never have imagined — making it straightforward for people to move across Europe simply for a better life or a better opportunity. This was the era of <strong>skilled, voluntary migration</strong>: people choosing where to live, not fleeing from hardship. My parents were part of this quieter, modern wave — two people from Barcelona settling in the <strong>Zürich Opernhaus district</strong>, eventually making their home in <strong>Thalwil</strong>, where the long journey of two Spanish families finally came to rest.
+          </p>
+          <div class="stats">
+            <div class="stat">
+              <div class="stat-val">2004</div>
+              <div class="stat-label">Year my parents settled in Switzerland</div>
+            </div>
+            <div class="stat">
+              <div class="stat-val">2000s</div>
+              <div class="stat-label">Peak of EU free movement to Switzerland</div>
+            </div>
+          </div>
+          <div class="tags">
+            <span class="tag pull">EU–Switzerland free movement</span>
+            <span class="tag pull">Better quality of life</span>
+            <span class="tag pull">Economic stability in Switzerland</span>
+            <span class="tag pull">New opportunities abroad</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function toggle(el) {
+    const isOpen = el.classList.contains('open');
+    document.querySelectorAll('.chapter').forEach(c => c.classList.remove('open'));
+    if (!isOpen) el.classList.add('open');
+  }
+
+  // open first on load
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.querySelector('.chapter').classList.add('open');
+    }, 600);
+  });
+</script>
+</body>
+</html>
